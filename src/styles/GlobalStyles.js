@@ -1,5 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 import AdidasFont from "../assets/fonts/adidas-regular.otf";
+import AdidasFontBold from "../assets/fonts/adidas-bold.otf";
+
 
 const GlobalStyles = createGlobalStyle`
   *, *::before, *::after, body{
@@ -12,6 +14,11 @@ const GlobalStyles = createGlobalStyle`
   @font-face {
     font-family: 'Adidas';
     src: url(${AdidasFont});
+  }
+
+  @font-face {
+    font-family: 'AdidasBold';
+    src: url(${AdidasFontBold});
   }
 
   body{

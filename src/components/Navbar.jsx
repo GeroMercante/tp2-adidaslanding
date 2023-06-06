@@ -1,18 +1,24 @@
+// Framework
 import React, { useState } from "react";
+// Dependencias de desarrollo
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-
+// Sonido
+import useSound from "use-sound";
+import Click from "../assets/sound/click.mp3";
+// Imagenes y logos
 import Logo from "../assets/images/logo.png";
 import Argentina from "../assets/images/argentina.svg";
-import { AiOutlineClose } from "react-icons/ai";
 import { FaUserAlt, FaHeart, FaCartPlus } from "react-icons/fa";
-import { HiBars3 } from "react-icons/hi2";
 
+// Componente navbar
 const Navbar = () => {
-  const [responsiveNav, setResponsiveNav] = useState(false);
+  // estados
   const [navbar, setNavbar] = useState(false);
+  const [play] = useSound(Click);
 
+  // path
   const location = useLocation();
   const changePosition = () => {
     if (window.scrollY >= 40) {
@@ -21,6 +27,7 @@ const Navbar = () => {
       setNavbar(false);
     }
   };
+  // scroll navbar
   window.addEventListener("scroll", changePosition);
   function pathMathRoute(route) {
     if (route === location.pathname) {
@@ -31,69 +38,6 @@ const Navbar = () => {
   return (
     <>
       <Container>
-        {responsiveNav && (
-          <motion.div
-            className="box-nav"
-            initial={{ top: "-1000px" }}
-            animate={{ top: "0" }}
-            exit={{ top: "-400px" }}
-            transition={{ duration: 0.8 }}
-          >
-            <ul className="nav-responsive">
-              <button
-                className="close-navbar"
-                onClick={() => setResponsiveNav(false)}
-              >
-                <AiOutlineClose />
-              </button>
-              <li>
-                <Link
-                  to="/"
-                  className={`${pathMathRoute("/") && "border-b"}`}
-                  onClick={() => setResponsiveNav(false)}
-                >
-                  Inicio
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/quienes-somos"
-                  className={`${pathMathRoute("/quienes-somos") && "border-b"}`}
-                  onClick={() => setResponsiveNav(false)}
-                >
-                  ¿Quiénes somos?
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/galeria"
-                  className={`${pathMathRoute("/galeria") && "border-b"}`}
-                  onClick={() => setResponsiveNav(false)}
-                >
-                  Galería
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/habitaciones"
-                  className={`${pathMathRoute("/habitaciones") && "border-b"}`}
-                  onClick={() => setResponsiveNav(false)}
-                >
-                  Habitaciones
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/contacto"
-                  className={`${pathMathRoute("/contacto") && "border-b"}`}
-                  onClick={() => setResponsiveNav(false)}
-                >
-                  Contacto
-                </Link>
-              </li>
-            </ul>
-          </motion.div>
-        )}
         <header className="header">
           <div className="social-media">
             <section className="data-contain">
@@ -128,46 +72,45 @@ const Navbar = () => {
           <div className={navbar ? "topnav widthMax" : "topnav"} id="myTopnav">
             <div className="logo-container">
               <Link to="/">
-                <img src={Logo} alt="Hotel N26" />
+                <img src={Logo} alt="Hotel N26" onClick={play} />
               </Link>
             </div>
-            <li>
-              <Link to="/" className={`${pathMathRoute("/") && "border-b"}`}>
+            <motion.li whileTap={{ scale: 0.8 }}>
+              <Link
+                to="/"
+                className={`${pathMathRoute("/") && "border-b"}`}
+                onClick={play}
+              >
                 Home
               </Link>
-            </li>
-            <li>
+            </motion.li>
+            <motion.li whileTap={{ scale: 0.8 }}>
               <Link
                 to="/productos"
                 className={`${pathMathRoute("/productos") && "border-b"}`}
+                onClick={play}
               >
                 Productos
               </Link>
-            </li>
-            <li>
+            </motion.li>
+            <motion.li whileTap={{ scale: 0.8 }}>
               <Link
                 to="/galeria"
                 className={`${pathMathRoute("/galeria") && "border-b"}`}
+                onClick={play}
               >
                 Galería
               </Link>
-            </li>
-            <li className="resize-navbar">
+            </motion.li>
+            <motion.li whileTap={{ scale: 0.8 }} className="resize-navbar">
               <Link
                 to="/contacto"
                 className={`${pathMathRoute("/contacto") && "border-b"}`}
+                onClick={play}
               >
                 Contacto
               </Link>
-            </li>
-            <div className="navbar-responsive">
-              <button
-                className="btn-nav"
-                onClick={() => setResponsiveNav(true)}
-              >
-                <HiBars3 />
-              </button>
-            </div>
+            </motion.li>
           </div>
         </nav>
       </Container>
