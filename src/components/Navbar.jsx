@@ -43,7 +43,7 @@ const Navbar = () => {
             <section className="data-contain">
               <span>
                 <i>
-                  <a href="mailto:">
+                  <a href="#" onClick={play}>
                     ES <img src={Argentina} alt="Logo argentina" />
                   </a>
                 </i>
@@ -52,7 +52,7 @@ const Navbar = () => {
             <section className="social-contain">
               <span>
                 <a href="#f" rel="noreferrer">
-                  <FaUserAlt />
+                  <Link to="/login"><FaUserAlt /></Link>
                 </a>
               </span>
               <span>

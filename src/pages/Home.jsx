@@ -53,10 +53,6 @@ const Home = () => {
             navigation={true}
             pagination={true}
             modules={[Navigation, Autoplay]}
-            autoplay={{
-              delay: 3000,
-              disableOnInteraction: true,
-            }}
             loop={true}
             className="mySwiper"
           >

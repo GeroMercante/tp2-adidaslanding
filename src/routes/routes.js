@@ -1,19 +1,67 @@
-import React, { useState } from "react";
+// Framework & Redux
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Home, Contact, Products, Gallery } from "../pages/";
-import Layout from "../hocs/Layout";
-import { styled } from "styled-components";
-
-import LoadingIo from "../assets/laoder.svg";
+import { useDispatch } from "react-redux";
+import {
+  LOGIN,
+  REFRESH_PUBLICACIONES,
+  REFRESH_PUBLICACIONES_FAIL,
+} from "../redux/types";
+// Firebase Functions
+import { getNovedades } from "../firebase/firebaseFunctions";
+// Librerias
 import { motion } from "framer-motion";
+import { styled } from "styled-components";
+// Vistas
+import Layout from "../hocs/Layout";
+import { Home, Contact, Products, Gallery } from "../pages/";
+import AdminRoute from "./AdminRoute";
+import Admin from "../pages/admin/Admin";
+import Login from "../pages/Login";
+import Registro from "../pages/Registro";
+// Loader
+import LoadingIo from "../assets/laoder.svg";
 
 const AppRoutes = () => {
   const [loader, setLoader] = useState(true);
+  const [novedades, setNovedades] = useState([]);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    async function fetchNovedades() {
+      const novedadesData = await getNovedades();
+      setNovedades(novedadesData);
+    }
+    fetchNovedades();
+  }, []);
+
+  useEffect(() => {
+    const storedAuth = JSON.parse(localStorage.getItem("auth"));
+    if (storedAuth) {
+      dispatch({
+        type: LOGIN,
+        payload: storedAuth,
+      });
+    }
+  }, [dispatch]);
+
+  const novedadesHabilitadas = novedades.filter(
+    (novedad) => novedad.habilitado
+  );
+
+  if (novedadesHabilitadas.length > 0) {
+    dispatch({ type: REFRESH_PUBLICACIONES });
+  } else {
+    dispatch({ type: REFRESH_PUBLICACIONES_FAIL });
+  }
 
   const Loader = () => {
     return (
       <Container>
         <div className="container-loader">
+          <h2 className="title">
+            Sitio sin fines de lucro, el mismo persigue metas acádemicas.
+          </h2>
           <h2 className="title">Cargando sitio...</h2>
           <img src={LoadingIo} alt="" />
           <p className="author">
@@ -43,6 +91,12 @@ const AppRoutes = () => {
               <Route path="/galeria" element={<Gallery />} />
               <Route path="/productos" element={<Products />} />
               <Route path="/contacto" element={<Contact />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/registro" element={<Registro />} />
+              {/* Rutas protegidas */}
+              <Route path="/admin" element={<AdminRoute />}>
+                <Route path="/admin" element={<Admin />} />
+              </Route>
             </Routes>
           </ContainerAnimated>
         </Layout>
