@@ -1,10 +1,12 @@
+// Framework & Redux
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { login, logout } from "../redux/actions/login";
+// Librerias
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { login, logout } from "../redux/actions/login";
-
 import { motion } from "framer-motion";
+
 
 const Login = () => {
   const user = useSelector((state) => state.auth.user);
